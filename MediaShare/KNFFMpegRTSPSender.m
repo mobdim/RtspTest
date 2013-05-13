@@ -8,6 +8,8 @@
 
 #import "KNFFMpegRTSPSender.h"
 #import "KNFFmpegFrameReader.h"
+#import "KNFFmpegDecoder.h"
+#import "KNFFMpegAACEncoder.h"
 #import "time.h"
 
 @interface KNFFMpegRTSPSender() {
@@ -19,6 +21,8 @@
 @property (copy, nonatomic) NSString* inputURL;
 @property (assign) int sendOption;
 @property (retain, nonatomic) KNFFmpegFrameReader* reader;
+@property (retain, nonatomic) KNFFMpegAACEncoder* aacEnc;
+@property (retain, nonatomic) KNFFmpegDecoder* dec;
 
 - (BOOL)initInput;
 - (BOOL)initOutput;
@@ -34,6 +38,8 @@
 @synthesize inputURL        = _inputURL;
 @synthesize sendOption      = _sendOption;
 @synthesize reader          = _reader;
+@synthesize aacEnc          = _aacEnc;
+@synthesize dec             = _dec;
 
 #pragma mark - View Cycle
 - (void)dealloc {
@@ -98,7 +104,6 @@
         return NO;
     }
     
-    
     return YES;
 }
 
@@ -137,7 +142,7 @@
     
     AVCodecContext* acodec = astream->codec;
     avcodec_copy_context(acodec, _reader.formatCtx->streams[_reader.audioStreamIndex]->codec);
-    acodec->flags |= CODEC_FLAG_GLOBAL_HEADER;
+    acodec->flags |= CODEC_FLAG_GLOBAL_HEADER;    
 }
 
 - (BOOL)writeRTSPHeader {
@@ -193,6 +198,7 @@
             }
             
             if (streamIndex == _reader.videoStreamIndex) {
+                return;
                 
                 int64_t sync = packet->pts - video_pts;
                 //                NSLog(@"-----------v pts  : %lld", sync);

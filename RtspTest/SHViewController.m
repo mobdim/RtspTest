@@ -380,7 +380,7 @@ int64_t prevSeek = 0;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"Ailee_720" ofType:@"mp4"];
+        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"ost" ofType:@"mp3"];
         NSString* rtspURL = @"222.112.235.244:554/live/saeha/ios";
         
         

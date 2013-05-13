@@ -7,11 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE1F5099172F6790008940D1 /* Ailee_720.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE64D7F0172A5AB500B3C144 /* Ailee_720.mp4 */; };
-		BE1F509B172F93A9008940D1 /* cookie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE1F509A172F93A2008940D1 /* cookie.mp4 */; };
-		BE1F509E172F990B008940D1 /* Cam.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE1F509C172F98FE008940D1 /* Cam.mp4 */; };
-		BE1F509F172F990B008940D1 /* hello.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE1F509D172F98FE008940D1 /* hello.mp4 */; };
-		BE1F50A417322621008940D1 /* binari.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE1F50A317322621008940D1 /* binari.mp3 */; };
 		BE64D76117290B9C00B3C144 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE64D76017290B9C00B3C144 /* UIKit.framework */; };
 		BE64D76317290B9C00B3C144 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE64D76217290B9C00B3C144 /* Foundation.framework */; };
 		BE64D76517290B9C00B3C144 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE64D76417290B9C00B3C144 /* CoreGraphics.framework */; };
@@ -32,17 +27,16 @@
 		BE64D7E417290CA200B3C144 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BE64D7E317290CA200B3C144 /* libz.1.1.3.dylib */; };
 		BE64D7E817290CDD00B3C144 /* KNFFmpegFrameReader.m in Sources */ = {isa = PBXBuildFile; fileRef = BE64D7E717290CDD00B3C144 /* KNFFmpegFrameReader.m */; };
 		BE64D7EC17290EE000B3C144 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE64D7EB17290EE000B3C144 /* MediaPlayer.framework */; };
-		BE95349B173A041700509691 /* Ailee_320.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE95349A173A041000509691 /* Ailee_320.mp4 */; };
 		BE95349E173A095A00509691 /* KNFFMpegRTSPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BE95349D173A095A00509691 /* KNFFMpegRTSPSender.m */; };
+		BED16F1E1740C5AB0031C4CC /* KNFFMpegAACEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = BED16F1D1740C5AB0031C4CC /* KNFFMpegAACEncoder.m */; };
+		BED16F211740D7220031C4CC /* KNFFmpegDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = BED16F201740CC020031C4CC /* KNFFmpegDecoder.m */; };
 		BED55A0117389E8F0060EBBA /* KNMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = BED55A0017389E8F0060EBBA /* KNMediaPlayer.m */; };
-		BEF5F2D7173BC138002D666A /* snow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F2D6173BC138002D666A /* snow.mp3 */; };
+		BEFCF47E173CA757004BF518 /* b.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEFCF47D173CA757004BF518 /* b.mp3 */; };
+		BEFCF480173CA885004BF518 /* l.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEFCF47F173CA885004BF518 /* l.mp3 */; };
+		BEFCF482173CA8ED004BF518 /* ost.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEFCF481173CA8ED004BF518 /* ost.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BE1F509A172F93A2008940D1 /* cookie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cookie.mp4; sourceTree = "<group>"; };
-		BE1F509C172F98FE008940D1 /* Cam.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cam.mp4; sourceTree = "<group>"; };
-		BE1F509D172F98FE008940D1 /* hello.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = hello.mp4; sourceTree = "<group>"; };
-		BE1F50A317322621008940D1 /* binari.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = binari.mp3; sourceTree = "<group>"; };
 		BE64D75D17290B9C00B3C144 /* RtspTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RtspTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE64D76017290B9C00B3C144 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BE64D76217290B9C00B3C144 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -142,13 +136,17 @@
 		BE64D7E617290CDD00B3C144 /* KNFFmpegFrameReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNFFmpegFrameReader.h; sourceTree = "<group>"; };
 		BE64D7E717290CDD00B3C144 /* KNFFmpegFrameReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNFFmpegFrameReader.m; sourceTree = "<group>"; };
 		BE64D7EB17290EE000B3C144 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		BE64D7F0172A5AB500B3C144 /* Ailee_720.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ailee_720.mp4; sourceTree = "<group>"; };
-		BE95349A173A041000509691 /* Ailee_320.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ailee_320.mp4; sourceTree = "<group>"; };
 		BE95349C173A095A00509691 /* KNFFMpegRTSPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNFFMpegRTSPSender.h; sourceTree = "<group>"; };
 		BE95349D173A095A00509691 /* KNFFMpegRTSPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNFFMpegRTSPSender.m; sourceTree = "<group>"; };
+		BED16F1C1740C5AB0031C4CC /* KNFFMpegAACEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNFFMpegAACEncoder.h; sourceTree = "<group>"; };
+		BED16F1D1740C5AB0031C4CC /* KNFFMpegAACEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNFFMpegAACEncoder.m; sourceTree = "<group>"; };
+		BED16F1F1740CC020031C4CC /* KNFFmpegDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNFFmpegDecoder.h; sourceTree = "<group>"; };
+		BED16F201740CC020031C4CC /* KNFFmpegDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNFFmpegDecoder.m; sourceTree = "<group>"; };
 		BED559FF17389E8F0060EBBA /* KNMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNMediaPlayer.h; sourceTree = "<group>"; };
 		BED55A0017389E8F0060EBBA /* KNMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNMediaPlayer.m; sourceTree = "<group>"; };
-		BEF5F2D6173BC138002D666A /* snow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = snow.mp3; sourceTree = "<group>"; };
+		BEFCF47D173CA757004BF518 /* b.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = b.mp3; sourceTree = "<group>"; };
+		BEFCF47F173CA885004BF518 /* l.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = l.mp3; sourceTree = "<group>"; };
+		BEFCF481173CA8ED004BF518 /* ost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ost.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,13 +174,9 @@
 		BE64D75417290B9C00B3C144 = {
 			isa = PBXGroup;
 			children = (
-				BEF5F2D6173BC138002D666A /* snow.mp3 */,
-				BE95349A173A041000509691 /* Ailee_320.mp4 */,
-				BE1F50A317322621008940D1 /* binari.mp3 */,
-				BE1F509A172F93A2008940D1 /* cookie.mp4 */,
-				BE64D7F0172A5AB500B3C144 /* Ailee_720.mp4 */,
-				BE1F509C172F98FE008940D1 /* Cam.mp4 */,
-				BE1F509D172F98FE008940D1 /* hello.mp4 */,
+				BEFCF481173CA8ED004BF518 /* ost.mp3 */,
+				BEFCF47F173CA885004BF518 /* l.mp3 */,
+				BEFCF47D173CA757004BF518 /* b.mp3 */,
 				BE64D7E517290CDD00B3C144 /* MediaShare */,
 				BE64D78317290C5D00B3C144 /* FFmpeg_Angel */,
 				BE64D76617290B9C00B3C144 /* RtspTest */,
@@ -413,6 +407,10 @@
 				BED55A0017389E8F0060EBBA /* KNMediaPlayer.m */,
 				BE95349C173A095A00509691 /* KNFFMpegRTSPSender.h */,
 				BE95349D173A095A00509691 /* KNFFMpegRTSPSender.m */,
+				BED16F1C1740C5AB0031C4CC /* KNFFMpegAACEncoder.h */,
+				BED16F1D1740C5AB0031C4CC /* KNFFMpegAACEncoder.m */,
+				BED16F1F1740CC020031C4CC /* KNFFmpegDecoder.h */,
+				BED16F201740CC020031C4CC /* KNFFmpegDecoder.m */,
 			);
 			path = MediaShare;
 			sourceTree = "<group>";
@@ -469,18 +467,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE95349B173A041700509691 /* Ailee_320.mp4 in Resources */,
-				BE1F509E172F990B008940D1 /* Cam.mp4 in Resources */,
-				BE1F509F172F990B008940D1 /* hello.mp4 in Resources */,
-				BE1F509B172F93A9008940D1 /* cookie.mp4 in Resources */,
-				BE1F5099172F6790008940D1 /* Ailee_720.mp4 in Resources */,
 				BE64D76B17290B9C00B3C144 /* InfoPlist.strings in Resources */,
 				BE64D77317290B9C00B3C144 /* Default.png in Resources */,
 				BE64D77517290B9C00B3C144 /* Default@2x.png in Resources */,
 				BE64D77717290B9C00B3C144 /* Default-568h@2x.png in Resources */,
 				BE64D77A17290B9C00B3C144 /* MainStoryboard.storyboard in Resources */,
-				BE1F50A417322621008940D1 /* binari.mp3 in Resources */,
-				BEF5F2D7173BC138002D666A /* snow.mp3 in Resources */,
+				BEFCF47E173CA757004BF518 /* b.mp3 in Resources */,
+				BEFCF480173CA885004BF518 /* l.mp3 in Resources */,
+				BEFCF482173CA8ED004BF518 /* ost.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,12 +485,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BED16F211740D7220031C4CC /* KNFFmpegDecoder.m in Sources */,
 				BE64D76D17290B9C00B3C144 /* main.m in Sources */,
 				BE64D77117290B9C00B3C144 /* SHAppDelegate.m in Sources */,
 				BE64D77D17290B9C00B3C144 /* SHViewController.m in Sources */,
 				BE64D7E817290CDD00B3C144 /* KNFFmpegFrameReader.m in Sources */,
 				BED55A0117389E8F0060EBBA /* KNMediaPlayer.m in Sources */,
 				BE95349E173A095A00509691 /* KNFFMpegRTSPSender.m in Sources */,
+				BED16F1E1740C5AB0031C4CC /* KNFFMpegAACEncoder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
