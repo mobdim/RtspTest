@@ -176,7 +176,6 @@
         @synchronized(self){
             
             if (readBlock) {
-                
                 readBlock(&packet, packet.stream_index);
             }
             av_free_packet(&packet);

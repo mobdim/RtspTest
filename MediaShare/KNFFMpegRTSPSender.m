@@ -12,6 +12,9 @@
 #import "KNFFMpegAACEncoder.h"
 #import "time.h"
 
+
+
+
 @interface KNFFMpegRTSPSender() {
     
     AVFormatContext* rtspCtx_;
@@ -131,18 +134,25 @@
     if (_reader.audioStreamIndex == -1)
         return;
     
+    _dec = [[KNFFmpegDecoder alloc] initWithVideoCodecCtx:nil videoStream:-1 audioCodecCtx:_reader.audioCodecCtx audioStream:_reader.audioStreamIndex];
+    _aacEnc = [[KNFFMpegAACEncoder alloc] initWithReader:_reader];
+
+    
     AVStream* astream = avformat_new_stream(rtspCtx_, NULL);
     if (!astream)
         return;
     
     astream->time_base = _reader.formatCtx->streams[_reader.audioStreamIndex]->time_base;
     astream->duration = _reader.formatCtx->streams[_reader.audioStreamIndex]->duration;
-    astream->pts = _reader.formatCtx->streams[_reader.audioStreamIndex]->pts;
-
+//    astream->pts = _reader.formatCtx->streams[_reader.audioStreamIndex]->pts;
+//
+//    AVCodecContext* acodec = astream->codec;
+//    avcodec_copy_context(acodec, _reader.formatCtx->streams[_reader.audioStreamIndex]->codec);
+//    acodec->flags |= CODEC_FLAG_GLOBAL_HEADER;
     
     AVCodecContext* acodec = astream->codec;
-    avcodec_copy_context(acodec, _reader.formatCtx->streams[_reader.audioStreamIndex]->codec);
-    acodec->flags |= CODEC_FLAG_GLOBAL_HEADER;    
+    avcodec_copy_context(acodec, _aacEnc.codecCtx);
+    acodec->flags |= CODEC_FLAG_GLOBAL_HEADER;
 }
 
 - (BOOL)writeRTSPHeader {
@@ -173,7 +183,7 @@
     if ([self initOutput] == NO)
         return NO;
     
-    [self genVideoStream];
+//    [self genVideoStream];
     [self genAudioStream];
     
     if ([self writeRTSPHeader] == NO)
@@ -185,17 +195,40 @@
     __block int_fast64_t audio_pts = 0;
     __block int64_t start = av_gettime();
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
+    
         ///블록 안에서 디버그 메세지 찍으면 싱크 틀어짐.
         
         [_reader readFrame:^(AVPacket *packet, int streamIndex) {
             
-            int64_t end = av_gettime() - start;
-            
-            if (av_interleaved_write_frame(rtspCtx_, packet) != 0) {
-                start = av_gettime();
+            if (streamIndex == _reader.videoStreamIndex) {
                 return;
             }
+            
+            int64_t end = av_gettime() - start;
+            
+            __block AVPacket* sendPacket = packet;
+            if (streamIndex == _reader.audioStreamIndex) {
+                [_dec decodeAudio2:packet completion:^(uint8_t *buffer, int size) {
+                    [_aacEnc encode:buffer size:size completion:^(AVPacket *pkt) {
+                        
+                        if (pkt) {
+                            if (av_interleaved_write_frame(rtspCtx_, pkt) != 0) {
+                                start = av_gettime();
+                                return;
+                            }
+                        }
+                    }];
+                }];
+                return;
+            }
+            
+//            if (sendPacket) {
+//                NSLog(@"AAC encode size : %d", sendPacket->size);
+//                if (av_interleaved_write_frame(rtspCtx_, sendPacket) != 0) {
+//                    start = av_gettime();
+//                    return;
+//                }
+//            }
             
             if (streamIndex == _reader.videoStreamIndex) {
                 return;

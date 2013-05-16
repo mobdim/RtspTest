@@ -14,6 +14,8 @@
 #import "timestamp.h"
 
 #import "KNFFMpegRTSPSender.h"
+#import "KNFFmpegDecoder.h"
+#import "KNFFMpegAACEncoder.h"
 
 @interface SHViewController () {
     AVFormatContext* oc;
@@ -380,8 +382,8 @@ int64_t prevSeek = 0;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"ost" ofType:@"mp3"];
-        NSString* rtspURL = @"222.112.235.244:554/live/saeha/ios";
+        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"g" ofType:@"mp3"];
+        NSString* rtspURL = @"222.112.235.244:554/live/saeha/iosmp3";
         
         
         KNFFMpegRTSPSender* sender = [[KNFFMpegRTSPSender alloc] initWithRTSPURL:rtspURL
@@ -393,6 +395,29 @@ int64_t prevSeek = 0;
             }
         }];
     });
+    
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//    
+//        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"g" ofType:@"mp3"];
+//        KNFFmpegFrameReader* reader = [[KNFFmpegFrameReader alloc] initWithURL:filePath withOption:kNetNone];
+//        
+//        KNFFMpegAACEncoder* enc = [[KNFFMpegAACEncoder alloc] initWithReader:reader];
+//        KNFFmpegDecoder* dec = [[KNFFmpegDecoder alloc] initWithVideoCodecCtx:nil videoStream:-1 audioCodecCtx:reader.audioCodecCtx audioStream:reader.audioStreamIndex];
+//       
+//        [reader readFrame:^(AVPacket *packet, int streamIndex) {
+//            
+//            [dec decodeAudio2:packet completion:^(AVFrame *decFrame) {
+//                [enc encode:decFrame completion:^(AVPacket *pkt) {
+//                    if (pkt)
+//                        NSLog(@"enc : %d, %d", packet->size, pkt->size);
+//                }];
+//            }];
+//            
+//        } completion:^(BOOL finish) {
+//            NSLog(@"done.");
+//        }];
+//    });
 }
 
 - (IBAction)backward:(id)sender {

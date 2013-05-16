@@ -41,8 +41,10 @@
          completion:(void(^)(NSDictionary* frameData))completion;
 
 - (void)decodeAudio2:(AVPacket *)packet
-         completion:(void(^)(AVFrame* decFrame))completion;
+         completion:(void(^)(uint8_t* buffer, int size))completion;
 
 
 - (void)endDecode;
+
+- (int)resample:(uint8_t** )pBuffer;
 @end

@@ -1,0 +1,14 @@
+prefix=./build_armv7
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 55.2.100
+Requires: libavutil = 52.26.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} -lavcodec -lfaac -lm -lz
+Libs.private: 
+Cflags: -I${includedir}

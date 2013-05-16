@@ -22,7 +22,9 @@
     AVCodec* pAudioCodec_;
     AVFrame* pAudioFrame_;
     int audioStreamIndex_;
-
+    
+    
+    SwrContext* pCVTContext_;
 }
 - (NSData *)copYUVData:(UInt8 *)src
               linesize:(int)linesize
@@ -30,7 +32,7 @@
                 height:(int)height;
 - (NSDictionary *)makeFrameData;
 
-- (int)resampleingAudioToS16:(uint8_t** )pBuffer;
+
 - (NSDictionary *)makeAudioData:(uint8_t *)buffer size:(int)size;
 @end
 
@@ -59,6 +61,8 @@
     
     self = [super init];
     if (self) {
+        
+        pCVTContext_ = NULL;
 
         //init video codec.
         if (vcodecCtx) {
@@ -151,8 +155,8 @@
         
         if (pAudioCodeCtx_->sample_fmt != AV_SAMPLE_FMT_S16) {
             
-            uint8_t* pBuffer = NULL;
-            int len = [self resampleingAudioToS16:&pBuffer];
+            uint8_t* pBuffer = 0;
+            int len = [self resample:&pBuffer];
             if (len <= 0) {
                 if (pBuffer)
                     free(pBuffer);
@@ -197,13 +201,14 @@
 }
 
 - (void)decodeAudio2:(AVPacket *)packet
-          completion:(void(^)(AVFrame* decFrame))completion {
-    
+          completion:(void(^)(uint8_t* buffer, int size))completion {
+
     @synchronized(self) {
         int got_picture = 0;
         if (packet->stream_index != audioStreamIndex_)
             return;
-        
+
+        avcodec_get_frame_defaults(pAudioFrame_);
         int len = avcodec_decode_audio4(pAudioCodeCtx_, pAudioFrame_, &got_picture, packet);
         
         if (len < 0) {
@@ -216,8 +221,31 @@
             return;
         }
         
-        if (completion)
-            completion(pAudioFrame_);
+        if (pAudioCodeCtx_->sample_fmt != AV_SAMPLE_FMT_S16) {
+            
+            uint8_t* pBuffer = 0;
+            
+            int len = [self resample:&pBuffer];
+            if (len <= 0) {
+                if (pBuffer)
+                    free(pBuffer);
+                return;
+            }
+
+            if (completion) {
+                completion(pBuffer, len);
+            }
+
+//            if (pBuffer)
+//                free(pBuffer);
+//            pBuffer = 0;
+            
+            return;
+        }
+        
+        if (completion) {
+            completion(pAudioFrame_->data[0], pAudioFrame_->linesize[0]);
+        }
     }
 
 }
@@ -232,6 +260,8 @@
     avcodec_close(pAudioCodeCtx_);
     av_free(pAudioFrame_);
     pAudioFrame_ = NULL;
+    
+    swr_free(&pCVTContext_);
 }
 
 - (NSDictionary *)makeFrameData {
@@ -263,32 +293,35 @@
     return md;
 }
 
-- (int)resampleingAudioToS16:(uint8_t** )pBuffer {
+- (int)resample:(uint8_t** )pBuffer {
     
-    const int AVCODEC_MAX_AUDO_FRAME_SIZE = 1130496;
+    const int AVCODEC_MAX_AUDO_FRAME_SIZE = FF_MIN_BUFFER_SIZE * 10;
+    
+    if (pCVTContext_ == NULL) {
+    
+        pCVTContext_ = swr_alloc_set_opts(pCVTContext_,
+                                         pAudioCodeCtx_->channel_layout,
+                                         AV_SAMPLE_FMT_S16,
+                                         pAudioCodeCtx_->sample_rate,
+                                         pAudioCodeCtx_->channel_layout,
+                                         pAudioCodeCtx_->sample_fmt,
+                                         pAudioCodeCtx_->sample_rate,
+                                         0,
+                                         0);
+        
+        int err = -1;
+        if ( (err = swr_init(pCVTContext_)) < 0) {
+            if (err == AVERROR(EINVAL))
+                NSLog(@"Failed to initialize the resampleing context.");
+        }
+    }
     
     int dataSize = av_samples_get_buffer_size(NULL,
                                               pAudioCodeCtx_->channels,
                                               pAudioFrame_->nb_samples,
                                               pAudioCodeCtx_->sample_fmt,
                                               1);
-    
-    SwrContext* pCVTContext = NULL;
-    pCVTContext = swr_alloc_set_opts(pCVTContext,
-                                     pAudioCodeCtx_->channel_layout,
-                                     AV_SAMPLE_FMT_S16,
-                                     pAudioCodeCtx_->sample_rate,
-                                     pAudioCodeCtx_->channel_layout,
-                                     pAudioCodeCtx_->sample_fmt,
-                                     pAudioCodeCtx_->sample_rate,
-                                     0,
-                                     0);
-    
-    int err = -1;
-    if ( (err = swr_init(pCVTContext)) < 0) {
-        if (err == AVERROR(EINVAL))
-            NSLog(@"Failed to initialize the resampleing context.");
-    }
+
     
     uint8_t cvtBuffer[AVCODEC_MAX_AUDO_FRAME_SIZE];
     uint8_t* pOut[] = {cvtBuffer};
@@ -308,7 +341,7 @@
         pIn[8] = pAudioFrame_->data[0];
     }
     
-    int ret = swr_convert(pCVTContext, pOut, pAudioFrame_->nb_samples, pIn, pAudioFrame_->nb_samples);
+    int ret = swr_convert(pCVTContext_, pOut, pAudioFrame_->nb_samples, pIn, pAudioFrame_->nb_samples);
     if (ret <= 0)
         return 0;
     
@@ -319,9 +352,10 @@
     *pBuffer = (uint8_t *)malloc(sizeof(uint8_t) * dataSize);
     memcpy(*pBuffer, &cvtBuffer, dataSize);
     
-    swr_free(&pCVTContext);
-    
     return dataSize;
+    
+//    NSLog(@"resample");
+//    return 0;
 }
 
 - (NSDictionary *)makeAudioData:(uint8_t *)buffer size:(int)size {

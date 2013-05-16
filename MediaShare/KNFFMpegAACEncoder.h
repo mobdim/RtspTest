@@ -17,5 +17,6 @@
 @property (assign) AVCodec* codec;
 
 - (id)initWithReader:(KNFFmpegFrameReader *)reader;
-- (void)encode:(AVFrame *)rawFrame completion:(void(^)(AVPacket* pkt))completion;
+//- (void)encode:(AVFrame *)rawFrame completion:(void(^)(AVPacket* pkt))completion;
+- (void)encode:(uint8_t*) buff size:(int)size completion:(void(^)(AVPacket* pkt))completion;
 @end
